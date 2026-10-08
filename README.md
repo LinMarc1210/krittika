@@ -30,6 +30,8 @@ Krittika can be run by using the krittika-sim.py script from the repository and 
 
 ```$ python3 krittika-sim.py -c <path_to_config_file> -t <path_to_topology_file>```
 
+```python3 -m krittika.krittika-sim -c configs/krittika.cfg -t topologies/test.csv -p partitions/temp_part.csv```
+
 Additional optional parameters
 1. -p <path_to_partition_file> (Refer partition_manager.py for more info)
 2. -o <path_to_the_log_dump_directory> 
@@ -46,3 +48,36 @@ Conv and GEMM layers follow scalesim topology structure [link](https://scale-sim
 The only difference is that there is *no comma* at the end of each layer.
 
 Support for RELU activation is also added and can be used just as shown in the image.
+
+
+## Experiments for MoE models on TPUs:
+
+Below is a MoE model runs on TPU v4, suppose TPU v4 has 8 compute cores (systolic array),
+We set Tensor Parallelism (TP) = 2, Expert Parallelism (EP) = 4,
+Run 4 commands below in 4 bash terminals:
+
+```bash
+python3 -m krittika.krittika-sim \
+-c configs/tpuv4_2core.cfg \
+-t topologies/qwen1.5_skew_ep0.csv \
+-p partitions/qwen1.5_skew.csv \
+-o results/qwen-1.5-dist-tpuv4-ep0
+
+python3 -m krittika.krittika-sim \
+-c configs/tpuv4_2core.cfg \
+-t topologies/qwen1.5_skew_ep1.csv \
+-p partitions/qwen1.5_skew.csv \
+-o results/qwen-1.5-dist-tpuv4-ep1
+
+python3 -m krittika.krittika-sim \
+-c configs/tpuv4_2core.cfg \
+-t topologies/qwen1.5_skew_ep2.csv \
+-p partitions/qwen1.5_skew.csv \
+-o results/qwen-1.5-dist-tpuv4-ep2
+
+python3 -m krittika.krittika-sim \
+-c configs/tpuv4_2core.cfg \
+-t topologies/qwen1.5_skew_ep3.csv \
+-p partitions/qwen1.5_skew.csv \
+-o results/qwen-1.5-dist-tpuv4-ep3
+```
