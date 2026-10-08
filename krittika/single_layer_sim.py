@@ -176,6 +176,7 @@ class SingleLayerSim:
         assert self.compute_done
 
         bandwidth_mode = self.config_obj.get_bandwidth_use_mode()
+        estimate_bw = True if bandwidth_mode == 'CALC' else False
         per_core_ifmap_buf_size, per_core_fitler_buf_size, per_core_ofmap_buf_size \
             = ([i * 1024 for i in self.config_obj.get_per_unit_sram_sizes_kb()])
 
@@ -186,7 +187,7 @@ class SingleLayerSim:
 
             this_part_mem = double_buffered_scratchpad()
             this_part_mem.set_params(verbose=self.verbose,
-                                     estimate_bandwidth_mode=bandwidth_mode,
+                                     estimate_bandwidth_mode=estimate_bw,
                                      ifmap_buf_size_bytes=per_core_ifmap_buf_size,
                                      filter_buf_size_bytes=per_core_fitler_buf_size,
                                      ofmap_buf_size_bytes=per_core_ofmap_buf_size,
@@ -310,6 +311,12 @@ class SingleLayerSim:
             self.avg_ifmap_dram_bw_list += [avg_ifmap_dram_bw]
             self.avg_filter_dram_bw_list += [avg_filter_dram_bw]
             self.avg_ofmap_dram_bw_list += [avg_ofmap_dram_bw]
+
+        # Memory leak fix: Release heavy structures after gathering stats
+        self.core_memory_system_list = []
+        self.core_compute_system_list = []
+        self.operand_matrix = None
+        self.op_mat_obj = None
 
         self.report_metrics_ready = True
 
