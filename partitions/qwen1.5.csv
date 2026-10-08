@@ -1,0 +1,21 @@
+layer id, input parts, filter parts, unit, dataflow
+0, 1, 2, matmul, ws
+1, 1, 2, matmul, ws
+2, 1, 2, matmul, ws
+3, 1, 2, matmul, ws
+4, 1, 2, matmul, ws
+5, 1, 2, matmul, ws
+6, 1, 2, matmul, ws
+7, 1, 2, matmul, ws
+8, 1, 2, matmul, ws
+9, 1, 2, matmul, ws
+10, 1, 2, matmul, ws
+11, 1, 2, matmul, ws
+12, 1, 2, matmul, ws
+13, 1, 2, matmul, ws
+14, 1, 2, matmul, ws
+15, 1, 2, matmul, ws
+16, 1, 2, matmul, ws
+17, 1, 2, matmul, ws
+18, 1, 2, matmul, ws
+19, 1, 2, matmul, ws
